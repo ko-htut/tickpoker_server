@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  # mongo:
+  #   build: ./mongo
+  #   restart: always
+  #   container_name: "mongo"
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     # - ./mongo/db:/data/db # データを永続化したい時に有効にする
+  #     # - ./mongo/configdb:/data/configdb
+  #     - ./mongo/init:/docker-entrypoint-initdb.d
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: pass
+  #     # MONGO_INITDB_DATABASE: db
+  #     # TZ: Asia/Tokyo
+  #   networks:
+  #     - app-net
+
+  center:
+    build: ./center
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./center:/center
+    working_dir: "/center"
+    # depends_on:
+    #   - mongo # db起動後に立ち上げる
+    # links:
+    #   - mongo:mongo
+    container_name: "center"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
